@@ -564,7 +564,7 @@ def buildSingleBookWordVector(booksBestTerms, books,  authors, publishers, bagOf
 	bookVector = [0] * vecLength
 	for w in booksBestTerms[isbn]:
 		bookVector[bagOfWords.index(w)] = 1
-	authorInd = authors.index(books[isbn][2])
+	authorInd = authors.index(books[isbn][1])
 	publisherInd = publishers.index(books[isbn][3])
 	bookVector[len(bagOfWords)  + authorInd] = 1
 	bookVector[len(bagOfWords) + len(authors) + publisherInd] = 1
@@ -709,3 +709,40 @@ def build_wj(data, books, booksBestTerms, bagOfWords):
 		#i += 1
 		wj.append(buildSingleBookWordVector(booksBestTerms, books,  authors, publishers, bagOfWords, isbn))
 	return numpy.asarray(wj)
+
+def normalizeFeatures(data, minFeature = 0, maxFeature = -1):
+	numFeatures = len(data[0])
+	numPoints = len(data)
+	if maxFeature == -1:
+		maxFeature = numFeatures
+	featureTotals = []
+	for j in range(0, numFeatures):
+		featureTotals.append(0)
+		
+	print('Summing Feature Vals . . .')
+	for i in range(0, numPoints):
+		for j in range(minFeature, maxFeature):
+			featureTotals[j] += data[i][j]
+			
+	print('Calculating Feature Means . . .')
+	featureMeans = [];
+	for i in range(0, numFeatures):
+		featureMeans.append(featureTotals[i] / numPoints);
+		
+		
+	print('Calculating Feature Standard Deviations . . .')
+	featureDevs = []
+	for j in range(0, numFeatures):
+		featureDevs.append(0);
+	
+	for i in range(0,numPoints):
+		for j in range(minFeature, maxFeature):
+			featureDevs[j] += ( data[i][j] - featureMeans[j] )**2
+			
+	for j in range(minFeature, maxFeature):
+		featureDevs[j] = sqrt( featureDevs[j] / numPoints )
+		
+	print('Normalizing Data . . .')
+	for i in range(0, numPoints):
+		for j in range(minFeature, maxFeature):
+			data[i][j] = (data[i][j] - featureMeans[j]) / featureDevs[j]

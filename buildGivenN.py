@@ -41,3 +41,8 @@ xj_test = pre.build_xj(test, books)
 print('Building wj_test')
 wj_test = pre.build_wj(test, booksBestTerms, bagOfWords)
 
+print('Normalizing wj vectors')
+pre.normalizeFeatures(wj_train)
+pre.normalizeFeatures(wj_test)
+pre.normalizeFeatures(wj_valid)
+
