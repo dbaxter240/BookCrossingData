@@ -559,11 +559,15 @@ def calcBookVecsInRange(lowj, highj, booksBestTerms, bagOfWords):
 		del bvecs
 		bvecs = {}
 		
-def buildSingleBookWordVector(booksBestTerms, bagOfWords, isbn):
-	vecLength = len(bagOfWords)
+def buildSingleBookWordVector(booksBestTerms, books,  authors, publishers, bagOfWords, isbn):
+	vecLength = len(bagOfWords) + len(authors) + len(publishers)
 	bookVector = [0] * vecLength
 	for w in booksBestTerms[isbn]:
 		bookVector[bagOfWords.index(w)] = 1
+	authorInd = authors.index(books[isbn][2])
+	publisherInd = publishers.index(books[isbn][3])
+	bookVector[len(bagOfWords)  + authorInd] = 1
+	bookVector[len(bagOfWords) + len(authors) + publisherInd] = 1
 	return bookVector
 
 def normalizeFeaturesDict(data, minFeature = 0, maxFeature = -1):
@@ -693,13 +697,15 @@ def build_xj(data, books):
 		
 	return numpy.asarray(xj)
 
-def build_wj(data,booksBestTerms, bagOfWords):
+def build_wj(data, books, booksBestTerms, bagOfWords):
 	bookIDs = data.ISBN.unique().tolist()
 	wj = []
+	authors = data.Author.unique().tolist()
+	publishers = data.Publisher.unique().tolist()
 	#i = 1
 	#num = len(bookIDs)
 	for isbn in bookIDs:
 		#print(i,'/',num)
 		#i += 1
-		wj.append(buildSingleBookWordVector(booksBestTerms, bagOfWords, isbn))
+		wj.append(buildSingleBookWordVector(booksBestTerms, books,  authors, publishers, bagOfWords, isbn))
 	return numpy.asarray(wj)
