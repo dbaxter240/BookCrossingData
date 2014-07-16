@@ -697,7 +697,7 @@ def build_xj(data, books):
 		
 	return numpy.asarray(xj)
 
-def build_wj(data, books, booksBestTerms, bagOfWords, authors, publishers, dict = false):
+def build_wj(data, books, booksBestTerms, bagOfWords, authors, publishers, dict = False):
 	bookIDs = data.ISBN.unique().tolist()
 	if dict:
 		wj = {}
