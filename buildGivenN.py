@@ -61,4 +61,3 @@ for isbn in wj_valid:
 	if isbn not in mvecs.keys():
 		mvecs[isbn] = wj_valid[isbn]
 
-pre.normalizeFeatures(list(mvecs.values()))
