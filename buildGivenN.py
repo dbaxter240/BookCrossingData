@@ -4,7 +4,7 @@ import pickle
 # CHANGE THESE AS NECESSARYs
 N = 10
 seed = 1
-pathToData = "C:/Users/Daniel/Dropbox/Yahoo-project-preprocessing_scripts/BookCrossing/AllData/"
+pathToData = "/home/baxte141/BookCrossing/BookCrossingData/AllData/"
 
 
 print('Reading in data variables...')
