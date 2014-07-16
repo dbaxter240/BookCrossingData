@@ -748,7 +748,7 @@ def normalizeFeatures(data, minFeature = 0, maxFeature = -1):
 			featureDevs[j] += ( data[i][j] - featureMeans[j] )**2
 			
 	for j in range(minFeature, maxFeature):
-		featureDevs[j] = sqrt( featureDevs[j] / numPoints )
+		featureDevs[j] = math.sqrt( featureDevs[j] / numPoints )
 		
 	print('Normalizing Data . . .')
 	for i in range(0, numPoints):
