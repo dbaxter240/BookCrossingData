@@ -23,8 +23,10 @@ train = pre.convertDataToDataFrame(trainRatings, users, books)
 valid = pre.convertDataToDataFrame(validRatings, users, books)
 test = pre.convertDataToDataFrame(testRatings, users, books)
 
-authors = (train.Author + valid.Author + test.Author).unique().tolist()
-publishers = (train.Publisher + valid.Publisher + test.Publisher).unique().tolist()
+authors = train.Author.tolist() + test.Author.tolist() + valid.Author.tolist()
+authors = list(set(authors))
+publishers = train.Publisher.tolist() + test.Publisher.tolist() + valid.Publisher.tolist()
+publishers = list(set(publishers))
 
 print('Building xi_train')
 xi_train = pre.build_xi(train, users)
