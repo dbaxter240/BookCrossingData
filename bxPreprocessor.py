@@ -700,8 +700,8 @@ def build_xj(data, books):
 def build_wj(data, books, booksBestTerms, bagOfWords, authors, publishers, dict = false):
 	bookIDs = data.ISBN.unique().tolist()
 	if dict:
-		wj {}
-	else
+		wj = {}
+	else:
 		wj = []
 	#i = 1
 	#num = len(bookIDs)
@@ -715,7 +715,7 @@ def build_wj(data, books, booksBestTerms, bagOfWords, authors, publishers, dict 
 			
 	if dict:
 		return wj
-	else
+	else:
 		return numpy.asarray(wj)
 
 def normalizeFeatures(data, minFeature = 0, maxFeature = -1):
