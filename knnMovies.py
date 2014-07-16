@@ -79,7 +79,7 @@ def EvaluateKNNRMSE(UtoM_train, UtoM_test, simMat, k, mVecs, minTrainMovs = 1):
 	totalRMSE = 0;
 	totalMovies = 0;
 	for uID in UtoM_test.keys():
-		#print('Evaluating user',i,'/',numUsers, '    uid : ', uID);
+		print('Evaluating user',i,'/',numUsers, '    uid : ', uID);
 		i += 1;
 		if (uID not in UtoM_train.keys()):
 			#no data on user, on to next user
@@ -131,8 +131,8 @@ def classifyMovies(movsToRank, movsRanked, simMat, k, mVecs=[]):
 			# Calculate similarity of each movie ranked to the one
 			# we are trying to rank.
 
-			similarity = GetValFromSimMat(simMat, m, mToRank);
-			#similarity = CalculateSimilarity(mVecs[m], mVecs[mToRank]);
+			#similarity = GetValFromSimMat(simMat, m, mToRank);
+			similarity = CalculateSimilarity(mVecs[m], mVecs[mToRank]);
 			if similarity in sims.keys():
 				sims[similarity].append(m);
 			else:
