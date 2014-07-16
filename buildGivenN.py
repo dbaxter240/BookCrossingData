@@ -22,27 +22,41 @@ testRatings = temp[2]
 train = pre.convertDataToDataFrame(trainRatings, users, books)
 valid = pre.convertDataToDataFrame(validRatings, users, books)
 test = pre.convertDataToDataFrame(testRatings, users, books)
+
+authors = (train.Author + valid.Author + test.Author).unique().tolist()
+publishers = (train.Publisher + valid.Publisher + test.Publisher).unique().tolist()
+
 print('Building xi_train')
 xi_train = pre.build_xi(train, users)
 print('Building xj_train')
 xj_train = pre.build_xj(train, books)
 print('Building wj_train')
-wj_train = pre.build_wj(train, booksBestTerms, bagOfWords)
+wj_train = pre.build_wj(train, booksBestTerms, bagOfWords, authors, publishers, dict=true )
 print('Building xi_valid')
 xi_valid = pre.build_xi(valid, users)
 print('Building xj_valid')
 xj_valid = pre.build_xj(valid, books)
 print('Building wj_valid')
-wj_valids = pre.build_wj(valid, booksBestTerms, bagOfWords)
+wj_valid = pre.build_wj(valid, booksBestTerms, bagOfWords, authors, publishers, dict=true )
 print('Building xi_test')
 xi_test = pre.build_xi(test, users)
 print('Building xj_test')
 xj_test = pre.build_xj(test, books)
 print('Building wj_test')
-wj_test = pre.build_wj(test, booksBestTerms, bagOfWords)
+wj_test = pre.build_wj(test, booksBestTerms, bagOfWords, authors, publishers, dict=true )
 
-print('Normalizing wj vectors')
-pre.normalizeFeatures(wj_train)
-pre.normalizeFeatures(wj_test)
-pre.normalizeFeatures(wj_valid)
+mvecs = {}
 
+for isbn in wj_train:
+	if isbn not in mvecs.keys():
+		mvecs[isbn] = wj_train[isbn]
+		
+for isbn in wj_test:
+	if isbn not in mvecs.keys():
+		mvecs[isbn] = wj_test[isbn]
+		
+for isbn in wj_valid:
+	if isbn not in mvecs.keys():
+		mvecs[isbn] = wj_valid[isbn]
+
+pre.normalizeFeatures(mvecs)
