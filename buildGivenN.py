@@ -1,9 +1,11 @@
 import bxPreprocessor as pre
 import pickle
+import knnMovies as knn
 
 # CHANGE THESE AS NECESSARYs
-N = 10
-seed = 1
+N = int(input('Enter a value for N : ' ))
+seed = int(input('Enter a seed : '))
+k = int(input('Enter a value for k (for KNN) : '))
 pathToData = "/home/baxte141/BookCrossing/BookCrossingData/AllData/"
 
 
@@ -60,4 +62,14 @@ for isbn in wj_test:
 for isbn in wj_valid:
 	if isbn not in mvecs.keys():
 		mvecs[isbn] = wj_valid[isbn]
+		
+print('Normalizing features')	
+numFeatures = len(wj_test[list(wj_test.keys())[0]])
+for i in range(0, numFeatures):
+	pre.normalizeFeatures(list(mvecs.values()), i, i+1)
+	
+results = knn.EvaluateKNNRMSE(trainRatings, testRatings, {}, k, mvecs)
+
+print('FINAL RESULTS FOR N = ', N, ', seed = ', seed, ', k = ', k)
+results
 
